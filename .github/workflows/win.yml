@@ -35,11 +35,13 @@ jobs:
       - name: Create Bundle using JPackage
         shell: cmd
         run: |
-          mvn -q versions:set -DnewVersion=${{ env.VERSION }} -DgenerateBackupPoms=false
-          mvn -q package -Dmaven.test.skip=true
-          .github\scripts\jpackage.bat
-          ren app\target\SceneBuilder-${{ env.VERSION }}.msi SceneBuilder-${{ env.TAG }}.msi
+          call mvn versions:set -DnewVersion=${{ env.VERSION }} -DgenerateBackupPoms=false
+          call mvn package -Dmaven.test.skip=true
+          call .github\scripts\jpackage.bat
+          call ren app\target\SceneBuilder-${{ env.VERSION }}.msi SceneBuilder-${{ env.TAG }}.msi
+          call dir app\target\
         env:
+          MAIN_CLASS: com.oracle.javafx.scenebuilder.app.SceneBuilderApp
           JAVAFX_HOME: D:\javafx-jmods-16
           JPACKAGE_HOME: ${{ env.JAVA_HOME }}
           TAG: ${{ steps.variables.outputs.SOURCE_TAG }}
