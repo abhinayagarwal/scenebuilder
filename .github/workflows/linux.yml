@@ -64,6 +64,7 @@ jobs:
             *.deb
             *.rpm
       - name: Upload to AWS S3
+        if: ${{ false }}
         run: |
           aws s3 cp app/target/install/ ${{ env.S3_PATH }} --exclude "**/*" --acl public-read --recursive --region us-east-1 --debug
         env:

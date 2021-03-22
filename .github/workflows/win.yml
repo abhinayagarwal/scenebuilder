@@ -57,6 +57,7 @@ jobs:
           name: SceneBuilder-${{ runner.os }}
           path: app/target/*.msi
       - name: Upload to AWS S3
+        if: ${{ false }}
         run: |
           aws s3 cp app/target/SceneBuilder-${{ env.TAG }}.msi ${{ env.S3_PATH }} --acl public-read --region us-east-1 --debug
         env:

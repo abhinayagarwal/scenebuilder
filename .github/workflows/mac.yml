@@ -75,6 +75,7 @@ jobs:
           name: SceneBuilder-${{ runner.os }}
           path: ${{ steps.outputfile.outputs.path }}
       - name: Upload to AWS S3
+        if: ${{ false }}
         run: |
           aws s3 cp $ARTIFACT_PATH $S3_PATH --acl public-read --region us-east-1 --debug
         env:
