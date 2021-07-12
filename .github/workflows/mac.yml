@@ -44,7 +44,7 @@ jobs:
           echo ::set-output name=path::$INSTALL_DIR/SceneBuilder-${{ env.TAG }}.dmg
         env:
           MAIN_CLASS: com.oracle.javafx.scenebuilder.app.SceneBuilderApp
-          JAVAFX_HOME: /tmp/javafx-jmods-16/
+          JAVAFX_HOME: /tmp/javafx-jmods-17/
           JPACKAGE_HOME: ${{ env.JAVA_HOME }}
           TAG: ${{ steps.variables.outputs.SOURCE_TAG }}
           VERSION: ${{ steps.variables.outputs.SOURCE_VERSION }}

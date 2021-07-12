@@ -13,7 +13,7 @@ $JAVA_HOME/bin/jlink -v \
 --add-modules $jdeps_modules,$JAVAFX_MODULES \
 --output app/target/runtime \
 --strip-debug --compress 2 --no-header-files --no-man-pages
-"echo jlink end"
+echo "jlink end"
 
 $JPACKAGE_HOME/bin/jpackage \
 --app-version $VERSION \
