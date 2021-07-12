@@ -12,30 +12,19 @@ jobs:
         uses: joschi/setup-jdk@v2
         with:
           java-version: 16
-      - uses: Apple-Actions/import-codesign-certs@v1
-        with:
-          p12-file-base64: ${{ secrets.CERTIFICATES_FILE_BASE64 }}
-          p12-password: ${{ secrets.CERTIFICATES_PASSWORD }}
+          architecture: 'aarch64'
       - name: Store Variables
         id: variables
         run: |
           TAG=${GITHUB_REF/refs\/tags\//}
           VERSION=$TAG
-          S3_PATH=${{ env.AWS_S3_BUCKET }}/scenebuilder/$TAG/install/mac/
-          if [[ "$TAG" == *-RC* ]]; then
-              VERSION=`echo $TAG | cut -d- -f1`
-              S3_PATH=${{ env.AWS_S3_BUCKET }}/scenebuilder/RC/$TAG/install/mac/
-          fi
           echo ::set-output name=SOURCE_TAG::$TAG
           echo ::set-output name=SOURCE_VERSION::$VERSION
-          echo ::set-output name=S3_PATH::$S3_PATH
         shell: bash
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
       - name: Setup JavaFX
         run: |
-          wget -P /tmp https://download2.gluonhq.com/openjfx/16/openjfx-16_osx-x64_bin-jmods-SIGNED.zip
-          unzip /tmp/openjfx-16_osx-x64_bin-jmods-SIGNED.zip -d /tmp
+          wget -P /tmp https://download2.gluonhq.com/openjfx/17/openjfx-17-ea+14_osx-aarch64_bin-jmods.zip
+          unzip /tmp/openjfx-17-ea+14_osx-aarch64_bin-jmods.zip -d /tmp
       - name: Build and package JAR
         run: |
           mvn -q versions:set -DnewVersion=${{ env.VERSION }} -DgenerateBackupPoms=false
@@ -51,9 +40,6 @@ jobs:
           --type dmg \
           --mac-package-identifier com.gluonhq.scenebuilder \
           --mac-package-name 'Scene Builder' \
-          --mac-package-signing-prefix "$GLUON_MACSIGN_PREFIX" \
-          --mac-signing-key-user-name "$GLUON_MACSIGN_USER" \
-          --mac-sign
           mv $INSTALL_DIR/SceneBuilder-${{ env.VERSION }}.dmg $INSTALL_DIR/SceneBuilder-${{ env.TAG }}.dmg
           ls $INSTALL_DIR
           echo ::set-output name=path::$INSTALL_DIR/SceneBuilder-${{ env.TAG }}.dmg
@@ -61,30 +47,19 @@ jobs:
           MAIN_CLASS: com.oracle.javafx.scenebuilder.app.SceneBuilderApp
           JAVAFX_HOME: /tmp/javafx-jmods-16/
           JPACKAGE_HOME: ${{ env.JAVA_HOME }}
-          GLUON_MACSIGN_PREFIX: ${{ secrets.GLUON_MACSIGN_PREFIX }}
-          GLUON_MACSIGN_USER: ${{ secrets.GLUON_MACSIGN_USER }}
           TAG: ${{ steps.variables.outputs.SOURCE_TAG }}
           VERSION: ${{ steps.variables.outputs.SOURCE_VERSION }}
           INSTALL_DIR: app/target/install
-      - name: "Notarize Release Build"
-        uses: erwin1/xcode-notarize@main
-        with:
-          product-path: ${{ steps.outputfile.outputs.path }}
-          appstore-connect-username: ${{ secrets.NOTARIZATION_USERNAME }}
-          appstore-connect-password: ${{ secrets.NOTARIZATION_PASSWORD }}
-          primary-bundle-id: com.gluonhq.scenebuilder
-          asc-provider: ${{ secrets.GLUON_MACSIGN_PREFIX }}
-          verbose: true
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: SceneBuilder-${{ runner.os }}
           path: ${{ steps.outputfile.outputs.path }}
-      - name: Upload to AWS S3
-        run: |
-          aws s3 cp $ARTIFACT_PATH $S3_PATH --acl public-read --region us-east-1 --debug
-        env:
-          ARTIFACT_PATH: ${{ steps.outputfile.outputs.path }}
-          S3_PATH: ${{ steps.variables.outputs.S3_PATH }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Release nightly build
+        uses: ncipollo/release-action@v1.8.6
+        with:
+          allowUpdates: true
+          name: ${{ env.VERSION }}
+          artifacts: app/target/install/*
+          token: ${{ secrets.GITHUB_TOKEN }}
+          draft: true
