@@ -36,7 +36,6 @@ on:
         required: true
 jobs:
   build:
-    name: macOS on M1
     runs-on: macos-14
     steps:
       - uses: actions/checkout@v2
