@@ -87,7 +87,7 @@ jobs:
 
   mac_aarch64-bundles:
     needs: [precheck]
-    uses: gluonhq/scenebuilder/.github/workflows/bundles-mac_aarch64.yml@master
+    uses: abhinayagarwal/scenebuilder/.github/workflows/bundles-mac_aarch64.yml@master
     secrets:
       CERTIFICATES_FILE_BASE64: ${{ secrets.CERTIFICATES_FILE_BASE64 }}
       CERTIFICATES_PASSWORD: ${{ secrets.CERTIFICATES_PASSWORD }}
