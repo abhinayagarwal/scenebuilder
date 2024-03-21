@@ -2,7 +2,7 @@ name: Early Access
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, macos-aarch64-test ]
 
 env:
   JAVAFX_VERSION: '21.0.1'
