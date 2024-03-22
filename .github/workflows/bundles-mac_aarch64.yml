@@ -99,6 +99,7 @@ jobs:
 
       - name: Notarize Release Build
         uses: erwin1/xcode-notarizer@v1
+        if: false
         with:
           product-path: ${{ steps.outputfile.outputs.path }}
           apple-id: ${{ secrets.NOTARIZATION_USERNAME }}
