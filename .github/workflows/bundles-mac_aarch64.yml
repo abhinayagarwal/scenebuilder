@@ -83,12 +83,7 @@ jobs:
           .github/scripts/jpackage.sh \
             --icon app/assets/osx/icon-mac.icns \
             --java-options '"--add-opens=javafx.fxml/javafx.fxml=ALL-UNNAMED"' \
-            --type dmg \
-            --mac-package-identifier com.gluonhq.scenebuilder \
-            --mac-package-name 'Scene Builder' \
-            --mac-package-signing-prefix "${{ env.MACSIGN_PREFIX }}" \
-            --mac-signing-key-user-name "${{ env.MACSIGN_USER }}" \
-            --mac-sign
+            --type dmg
           mv ${{ env.INSTALL_DIR }}/SceneBuilder-${{ env.APP_VERSION }}.dmg ${{ env.INSTALL_DIR }}/SceneBuilder-${{ env.PROJECT_VERSION }}-aarch64.dmg
           ls ${{ env.INSTALL_DIR }}
           echo ::set-output name=path::${{ env.INSTALL_DIR }}/SceneBuilder-${{ env.PROJECT_VERSION }}-aarch64.dmg
