@@ -4,7 +4,7 @@
     <groupId>com.gluonhq.scenebuilder</groupId>
     <artifactId>parent</artifactId>
     <packaging>pom</packaging>
-    <version>24.0.0-SNAPSHOT</version>
+    <version>23.0.0-SNAPSHOT</version>
     <name>Scene Builder</name>
     <description>Scene Builder is a visual, drag n drop, layout tool for designing JavaFX application user interfaces</description>
     <inceptionYear>2012</inceptionYear>
@@ -283,20 +283,6 @@
                                         <platform>osx-x86_64</platform>
                                         <extraProperties>
                                             <s3GluonPath>scenebuilder/{{s3Path}}/install/mac/{{artifactFile}}</s3GluonPath>
-                                        </extraProperties>
-                                    </artifact>
-                                    <artifact>
-                                        <path>{{artifactsDir}}/{{distributionName}}-{{projectVersion}}-aarch64.dmg</path>
-                                        <platform>osx-aarch64</platform>
-                                        <extraProperties>
-                                            <s3GluonPath>scenebuilder/{{s3Path}}/install/mac/{{artifactFile}}</s3GluonPath>
-                                        </extraProperties>
-                                    </artifact>
-                                    <artifact>
-                                        <path>{{artifactsDir}}/{{distributionName}}-{{projectVersion}}.msi</path>
-                                        <platform>windows-x86_64</platform>
-                                        <extraProperties>
-                                            <s3GluonPath>scenebuilder/{{s3Path}}/install/win/{{artifactFile}}</s3GluonPath>
                                         </extraProperties>
                                     </artifact>
                                     <artifact>
