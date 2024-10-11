@@ -302,17 +302,6 @@
                                     </artifact>
                                 </artifacts>
                             </SceneBuilder>
-                            <scenebuilder-kit>
-                                <type>SINGLE_JAR</type>
-                                <artifacts>
-                                    <artifact>
-                                        <path>{{artifactsDir}}/{{distributionName}}-{{projectVersion}}.jar</path>
-                                        <extraProperties>
-                                            <s3GluonPath>scenebuilder/{{s3Path}}/{{artifactFile}}</s3GluonPath>
-                                        </extraProperties>
-                                    </artifact>
-                                </artifacts>
-                            </scenebuilder-kit>
                         </distributions>
                     </jreleaser>
                 </configuration>
