@@ -260,16 +260,6 @@
                                 </changelog>
                             </github>
                         </release>
-                        <upload>
-                            <s3>
-                                <gluon>
-                                    <active>RELEASE</active>
-                                    <checksums>false</checksums>
-                                    <signatures>false</signatures>
-                                    <path>scenebuilder/{{artifactFile}}</path>
-                                </gluon>
-                            </s3>
-                        </upload>
                         <distributions>
                             <SceneBuilder>
                                 <type>NATIVE_PACKAGE</type>
@@ -338,20 +328,6 @@
                                 </artifacts>
                             </scenebuilder-kit>
                         </distributions>
-                        <files>
-                            <active>${jreleaser.files.active}</active>
-                            <artifacts>
-                                <artifact>
-                                    <path>target/settings.properties</path>
-                                </artifact>
-                                <artifact>
-                                    <path>target/version.json</path>
-                                </artifact>
-                                <artifact>
-                                    <path>target/version-8.4.0.json</path>
-                                </artifact>
-                            </artifacts>
-                        </files>
                     </jreleaser>
                 </configuration>
             </plugin>
